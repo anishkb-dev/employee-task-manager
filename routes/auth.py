@@ -28,5 +28,12 @@ def login():
             session["user_id"] = user[0]
             session["role"] = user[3]
             return redirect("/dashboard")
+        return render_template("login.html", error="Invalid credentials")
+    return render_template("login.html")
+        
+@auth.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
 
     return render_template("login.html")
