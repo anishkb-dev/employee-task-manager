@@ -4,7 +4,7 @@ DB_PATH = "database/db.sqlite3"
 
 
 def get_db_connection():
-    return sqlite3.connect(DB_PATH)
+    return sqlite3.connect(DB_PATH, timeout=10)
 
 
 def create_users_table():
@@ -23,6 +23,7 @@ def create_users_table():
     conn.commit()
     conn.close()
 
+
 def create_default_admin():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -30,22 +31,31 @@ def create_default_admin():
     cursor.execute("SELECT * FROM users WHERE role='admin'")
     admin = cursor.fetchone()
 
-
-
     if not admin:
         cursor.execute(
             "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
             ("admin", "admin123", "admin")
         )
-        
+
+    conn.commit()
+    conn.close()
+
+
+
 def create_employee(username, password):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute(
-        "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-        (username, password, "employee")
-    )
+    try:
+        cursor.execute(
+            "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+            (username, password, "employee")
+        )
+        conn.commit()
+        return True
 
-    conn.commit()
-    conn.close()
+    except sqlite3.IntegrityError:
+        return False
+
+    finally:
+        conn.close()
