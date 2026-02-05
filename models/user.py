@@ -30,11 +30,22 @@ def create_default_admin():
     cursor.execute("SELECT * FROM users WHERE role='admin'")
     admin = cursor.fetchone()
 
+
+
     if not admin:
         cursor.execute(
             "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
             ("admin", "admin123", "admin")
         )
+        
+def create_employee(username, password):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+        (username, password, "employee")
+    )
 
     conn.commit()
     conn.close()
