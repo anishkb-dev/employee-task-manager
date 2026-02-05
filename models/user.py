@@ -22,3 +22,19 @@ def create_users_table():
 
     conn.commit()
     conn.close()
+
+def create_default_admin():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE role='admin'")
+    admin = cursor.fetchone()
+
+    if not admin:
+        cursor.execute(
+            "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+            ("admin", "admin123", "admin")
+        )
+
+    conn.commit()
+    conn.close()
