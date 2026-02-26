@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employee Dashboard</title>
+</head>
+<body>
+  <h2>Your Tasks</h2>
+
+  {% if tasks %}
+    <ul>
+      {% for task in tasks %}
+        <li>
+          <strong>{{ task[1] }}</strong> — {{ task[2] }}
+
+          <form method="post" style="display:inline;">
+            <input type="hidden" name="task_id" value="{{ task[0] }}">
+
+            <select name="status">
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+
+            <button type="submit">Update</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No tasks assigned yet.</p>
+  {% endif %}
+
+  <br>
+  <a href="/logout">Logout</a>
+</body>
+</html>

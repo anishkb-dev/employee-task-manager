@@ -59,3 +59,13 @@ def create_employee(username, password):
 
     finally:
         conn.close()
+
+def get_all_employees():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, username FROM users WHERE role='employee'")
+    employees = cursor.fetchall()
+
+    conn.close()
+    return employees

@@ -5,12 +5,14 @@ from models.user import create_users_table, create_default_admin
 from models.task import create_tasks_table
 from routes.auth import auth
 from routes.admin import admin
+from routes.employee import employee
 
 app = Flask(__name__)
 app.secret_key = "dev-secret-key"
 
 app.register_blueprint(auth)
 app.register_blueprint(admin)
+app.register_blueprint(employee)
 
 
 def initialize_database():
