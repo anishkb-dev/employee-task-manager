@@ -90,12 +90,16 @@ Log in as admin → create an employee → assign them a task. Then log out and 
 
 ---
 
+## Security
+
+- **Passwords are hashed** with `werkzeug.security` (`generate_password_hash` /
+  `check_password_hash`) — never stored in plaintext.
+- The session-signing **`secret_key` comes from the `SECRET_KEY` env var** (with a
+  dev-only fallback), and debug mode is off unless `FLASK_DEBUG=1`.
+- All SQL uses parameterized `?` placeholders (no string interpolation → no SQL injection).
+
 ## Roadmap
 
-Honest known improvements (this started as a learning project):
-
-- **Hash passwords** with `werkzeug.security` instead of storing plaintext
-- Replace the hardcoded `secret_key` with an environment variable
 - Add task due-dates, priorities, and a status dropdown UI
 - Swap raw SQL for an ORM (SQLAlchemy) and add migrations
 - Unit tests for the auth and task flows

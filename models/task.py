@@ -63,21 +63,3 @@ def update_task_status(task_id, status):
 
     conn.commit()
     conn.close()
-
-
-def get_tasks_for_user(user_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT id, title, status, assigned_to FROM tasks")
-    all_tasks = cursor.fetchall()
-    print("ALL TASKS IN DB =", all_tasks)
-
-    cursor.execute(
-        "SELECT id, title, status FROM tasks WHERE assigned_to=?",
-        (user_id,)
-    )
-    tasks = cursor.fetchall()
-
-    conn.close()
-    return tasks
