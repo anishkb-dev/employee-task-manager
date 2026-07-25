@@ -1,4 +1,4 @@
-
+import os
 
 from flask import Flask, redirect, session
 from models.user import create_users_table, create_default_admin
@@ -8,7 +8,8 @@ from routes.admin import admin
 from routes.employee import employee
 
 app = Flask(__name__)
-app.secret_key = "dev-secret-key"
+# Read the session-signing secret from the environment; the fallback is dev-only.
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 
 app.register_blueprint(auth)
 app.register_blueprint(admin)
@@ -35,4 +36,4 @@ def dashboard():
 
 if __name__ == "__main__":
     initialize_database()
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG") == "1")

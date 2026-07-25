@@ -1,5 +1,7 @@
 import sqlite3
 
+from werkzeug.security import generate_password_hash
+
 DB_PATH = "database/db.sqlite3"
 
 
@@ -34,7 +36,7 @@ def create_default_admin():
     if not admin:
         cursor.execute(
             "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-            ("admin", "admin123", "admin")
+            ("admin", generate_password_hash("admin123"), "admin")
         )
 
     conn.commit()
@@ -49,7 +51,7 @@ def create_employee(username, password):
     try:
         cursor.execute(
             "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-            (username, password, "employee")
+            (username, generate_password_hash(password), "employee")
         )
         conn.commit()
         return True

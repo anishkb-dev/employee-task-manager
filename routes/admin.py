@@ -21,7 +21,7 @@ def admin_dashboard():
             password = request.form["password"]
 
             success = create_employee(username, password)
-            status = "employee_created" if success else "employee_exists"
+            status = "success" if success else "exists"
 
      
         elif "title" in request.form:

@@ -9,7 +9,6 @@ def employee_dashboard():
         return redirect("/login")
 
     user_id = session.get("user_id")
-    print("SESSION USER_ID =", session.get("user_id"))
 
     if request.method == "POST":
         task_id = request.form["task_id"]
